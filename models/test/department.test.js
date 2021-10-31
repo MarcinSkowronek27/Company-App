@@ -4,6 +4,10 @@ const mongoose = require('mongoose');
 
 describe('Department', () => {
 
+  after(() => {
+    mongoose.models = {};
+  });
+
   it('should throw an error if no "name" arg', () => {
     const dep = new Department({}); // create new Department, but don't set `name` attr value
 
@@ -11,9 +15,6 @@ describe('Department', () => {
       expect(err.errors.name).to.exist;
     });
 
-    after(() => {
-      mongoose.models = {};
-    });
   });
 
   it('should throw an error if "name" is not a string', () => {
@@ -27,9 +28,6 @@ describe('Department', () => {
       });
 
     }
-    after(() => {
-      mongoose.models = {};
-    });
 
   });
 
@@ -44,9 +42,6 @@ describe('Department', () => {
       });
 
     }
-    after(() => {
-      mongoose.models = {};
-    });
 
   });
 
@@ -62,9 +57,6 @@ describe('Department', () => {
 
     }
 
-    after(() => {
-      mongoose.models = {};
-    });
   });
 
 });

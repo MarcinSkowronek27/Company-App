@@ -4,8 +4,14 @@ const mongoose = require('mongoose');
 const firstName = require('../employee.model.js');
 const lastName = require('../employee.model.js');
 const department = require('../employee.model.js');
+should = require('chai').should();
+const assert = require('chai').assert;
 
 describe('Employee', () => {
+
+  after(() => {
+    mongoose.models = {};
+  });
 
   it('should throw an error if no args', () => {
 
@@ -17,9 +23,6 @@ describe('Employee', () => {
       expect(err.errors.department).to.exist;
     });
 
-    after(() => {
-      mongoose.models = {};
-    });
   });
 
   it('should throw an error if "arg" is not a string', () => {
@@ -36,16 +39,20 @@ describe('Employee', () => {
 
   it('should not throw an error if args are okay', () => {
 
-    const cases = [{}];
-    for (let atribute of cases) {
-      const emp = new Employee({ firstName: atribute, lastName: atribute });
+    const emp = new Employee({ firstName: 'Adam', lastName: 'Małysz', department: 'fgdjojioj5434'});
+    assert.typeOf(emp.firstName, 'string');
+    assert.typeOf(emp.lastName, 'string');
+// powyżej spróbowałem wykorzystać też funkcję 'assert' z Chai.
 
-      emp.validate(err => {
-        expect(err.firstName).to.not.exist;
-        expect(err.lastName).to.not.exist;
-      });
+    // emp.should.have.property('firstName');
+    // emp.should.have.property('lastName');
+    emp.validate(err => {
+      expect(err).to.not.exist;
+      // expect(err.lastName).to.not.exist;
+      // expect(err.department).to.not.exist;
+    });
 
-    }
+    // }
 
   });
 
